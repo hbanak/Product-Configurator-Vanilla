@@ -2,6 +2,16 @@
 <html>
     <head profile="http://www.w3.org/1999/xhtml/vocab">
         <style>
+
+            #logo {
+                position: fixed;
+                height: 100px;
+                left: 5rem;
+                top: 15px;
+                transition: all 1s ease-in-out;
+                z-index: 2000;
+            }
+
             * {
                 -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
@@ -318,8 +328,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300,800,700,600" rel="stylesheet" type="text/css">
+        <link rel="icon" href="data;," />
     </head>
     <body>
+         <img id="logo" src="logo_code_zoom.svg" />
+
         <header style="margin-bottom: 0px;">
             <div>YOUR BUSINESS HEADER</div>
         </header>
@@ -569,12 +582,12 @@
             };
 
             const COMPONENT_PRICES = {
-                component_01: 14.22 + 2.72,                        // button + label
-                component_02: 15.47 + 1.81 + 6.10 + 2.72,         // din mount + contact clip + button head + label
+                component_01: 14.22 + 2.72,                       
+                component_02: 15.47 + 1.81 + 6.10 + 2.72,         
                 component_03: 6.31,
                 component_04: 14.00,
                 component_05: 0.48,
-                component_06: 0.63 + 5.30 + 1.09,                  // fuse + holder + endcap
+                component_06: 0.63 + 5.30 + 1.09,                  
                 component_07: 34.00,
                 component_a:  0.36,
                 component_09: 0.24,
@@ -604,6 +617,7 @@
             };
 
             //============ DOM REFS ============//
+            const LOGO                 = document.querySelector('#logo');
             const PART_NUM_CONTAINER   = document.querySelector('#part_number');
             const PRICE_CONTAINER      = document.querySelector('#price');
             const LEAD_TIME_CONTAINER  = document.querySelector('#lead_time');
@@ -641,7 +655,6 @@
             let selected_options = getDefaultSelections();
 
             //============ DERIVED STATE ============//
-
             /** Returns a snapshot of all commonly-derived values, computed once per update cycle. */
             function getComputedState() {
                 const a = selected_options[SELECT_A];
@@ -681,12 +694,12 @@
                          numComponentA, numComponent12, numHours };
             }
 
-            /** Count how many values in an array are not '0'. */
+            /** Count how many values in an array are not '0' **/
             function countNonZero(values) {
                 return values.filter(v => v !== '0').length;
             }
 
-            /** Whether an Element E value represents a "doubled" quantity. */
+            /** Whether an Element E value represents a "doubled" quantity  **/
             function isDoubled(eVal) {
                 return Number(eVal) % 2 === 0;
             }
@@ -730,7 +743,6 @@
             }
 
             //============ DISPLAY VALUE HELPERS ============//
-
             function getDisplayVal(key, optionKey, c) {
                 return VOLTAGE_ELEMENT_KEYS.includes(key)
                     ? ELEMENTS[key].options[optionKey].c_type[c].val
@@ -753,7 +765,6 @@
             }
 
             //============ PRICE CALCULATIONS ============//
-
             function getPriceElementE(state) {
                 const { e, g, h, i, j, c, numESpecialComponents } = state;
                 const eNum = Number(e);
@@ -879,7 +890,6 @@
             }
 
             //============ UPDATE FUNCTIONS ============//
-
             function updateAll() {
                 const state  = getComputedState();
                 const errors = validatePart(state);
@@ -1185,6 +1195,18 @@
             setQuoteButton();
             buildForm();
             updateAll();
+
+            //============ LOGO ANIMATION ============//
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 200) {
+                    LOGO.style.height = '50px';
+                    LOGO.style.top = (window.innerHeight - 50 - 15) + 'px';
+                }
+                else {
+                    LOGO.style.height = '100px';
+                    LOGO.style.top = '15px';
+                }
+            })
         </script>
     </body>
 </html>
